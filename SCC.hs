@@ -5,9 +5,19 @@ import Data.Array
 
 data SM s a = SM (s -> (a, s))
 
+instance Functor (SM s) where
+    fmap f (SM c) = SM (\s -> let (a, s') = c s in (f a, s'))
+
+instance Applicative (SM s) where
+    pure x = SM (\s -> (x, s))
+    SM cf <*> SM ca = SM (\s0 ->
+        let (f, s1) = cf s0
+            (a, s2) = ca s1
+        in (f a, s2))
+
 instance Monad (SM s) where
     SM c1 >>= fc2 = SM (\s0 -> let (r,s1) = c1 s0; SM c2 = fc2 r in c2 s1)
-    return k = SM (\s -> (k,s))
+    return = pure
 
 readSM :: (s -> a) -> SM s a
 readSM f = SM (\s -> (f s, s))
