@@ -1,20 +1,31 @@
-SRC = Lexer.hs Parser.hs Syntax.hs PPrint.hs Static.hs SCC.hs \
-	Type.hs PatComp.hs Compiler.hs Optimizer.hs Builtin.hs Main.hs
+SRC = \
+	hs/src/Lexer.hs \
+	hs/src/Parser.hs \
+	hs/src/Syntax.hs \
+	hs/src/PPrint.hs \
+	hs/src/Static.hs \
+	hs/src/SCC.hs \
+	hs/src/Type.hs \
+	hs/src/PatComp.hs \
+	hs/src/Compiler.hs \
+	hs/src/Optimizer.hs \
+	hs/src/Builtin.hs \
+	hs/app/Main.hs
 
-GHCFLAGS =
+GHCFLAGS = -ihs/src
 OPTFLAGS = -O
 #PROFFLAGS = -prof -auto-all
 
 all: hs2lazy examples
 
 hs2lazy: $(SRC)
-	ghc $(GHCFLAGS) $(OPTFLAGS) $(PROFFLAGS) -o $@ --make Main.hs
+	ghc $(GHCFLAGS) $(OPTFLAGS) $(PROFFLAGS) -o $@ --make hs/app/Main.hs
 
 Lexer.hs: Lexer.x
 	alex Lexer.x
 
 clean:
-	rm -f *.o *.hi hs2lazy hs2lazy.exe
+	rm -f hs/*/*.o hs/*/*.hi hs2lazy hs2lazy.exe
 
 examples: hs2lazy
 	make -C examples

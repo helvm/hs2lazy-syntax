@@ -62,7 +62,18 @@ library
     import:           warnings
 
     -- Modules exported by the library.
-    exposed-modules:  MyLib
+    exposed-modules:
+      Builtin
+      Compiler
+      Lexer
+      Optimizer
+      Parser
+      PatComp
+      PPrint
+      SCC
+      Static
+      Syntax
+      Type
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -71,10 +82,13 @@ library
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
-    build-depends:    base ^>=4.20.0.0
+    build-depends:
+        base ^>=4.20.0.0
+      , array
+      , mtl
+      , parsec
 
-    -- Directories containing source files.
-    hs-source-dirs:   src
+    hs-source-dirs:   hs/src
 
     -- Base language which the package is written in.
     default-language: GHC2024
@@ -98,7 +112,7 @@ executable hs2lazy
         hs2lazy
 
     -- Directories containing source files.
-    hs-source-dirs:   app
+    hs-source-dirs:   hs/app
 
     -- Base language which the package is written in.
     default-language: GHC2024
@@ -120,7 +134,7 @@ test-suite hs2lazy-test
     type:             exitcode-stdio-1.0
 
     -- Directories containing source files.
-    hs-source-dirs:   test
+    hs-source-dirs:   hs/test
 
     -- The entrypoint to the test suite.
     main-is:          Main.hs
