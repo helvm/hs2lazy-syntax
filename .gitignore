@@ -2,3 +2,5 @@
 *.o
 hs2lazy
 .idea
+dist-newstyle
+*.tix
