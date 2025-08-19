@@ -17,7 +17,8 @@ import Run
 main :: IO ()
 main = do
   source <- argf
-  putStrLn $ run source
+  ski  <- runIO source
+  putStrLn $ ski
 
 argf :: IO String
 argf = do argv <- getArgs
