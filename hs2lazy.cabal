@@ -31,6 +31,7 @@ library
       Parser
       PatComp
       PPrint
+      Run
       SCC
       Static
       Syntax
@@ -86,4 +87,5 @@ test-suite hs2lazy-test
     , tasty-golden
     , tasty-hspec
     , tasty-hunit
+    , utf8-string
   default-language: Haskell2010

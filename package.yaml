@@ -68,5 +68,6 @@ tests:
     - hspec
     - bytestring
     - filepath
+    - utf8-string
     build-tools:
     - tasty-discover:tasty-discover

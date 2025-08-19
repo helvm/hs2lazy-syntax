@@ -1,39 +1,32 @@
 module GoldenSpec (test_golden) where
 
-import Test.Tasty (defaultMain, TestTree, testGroup)
+import Run
+
+import Test.Tasty (TestTree, testGroup)
 import Test.Tasty.Golden (goldenVsString, findByExtension)
 import qualified Data.ByteString.Lazy as LBS
-import qualified Data.ByteString.Lazy as BL
-import System.FilePath (takeBaseName, replaceExtension)
+import qualified Data.ByteString.Lazy.UTF8 as LBS
 
---main :: IO ()
---main = defaultMain =<< tests
+import System.FilePath (takeBaseName, (<.>), (</>))
+import System.IO.Unsafe (unsafePerformIO)
 
---tests :: IO TestTree
---tests = do
---  yamlFiles <- findByExtension [".yaml"] "."
---  return $ testGroup "YamlToJson golden tests"
---    [ goldenVsString
---        (takeBaseName yamlFile) -- test name
---        jsonFile -- golden file path
---        (LBS.readFile yamlFile) -- action whose result is tested
---    | yamlFile <- yamlFiles
---    , let jsonFile = replaceExtension yamlFile ".json"
---    ]
+inputFiles :: [FilePath]
+inputFiles = unsafePerformIO (findByExtension [".hs"] "examples")
 
---tests :: IO TestTree
---tests = do
---  golden <- goldenVsString
---    "foo output matches golden file"
---    "test/golden/foo.golden"
---    (return $ BL.pack $ map (fromIntegral . fromEnum) "Hello, world!\n")
---  return $ testGroup "Golden tests" [golden]
---
---tests :: IO TestTree
+transform :: LBS.ByteString -> IO LBS.ByteString
+transform = pure
+--transform = pure . LBS.fromString . run . LBS.toString
+--transform source = do
+--  let src = LBS.toString source
+--  putStrLn src
+--  pure $ LBS.fromString $ run src
+
 test_golden :: TestTree
-test_golden = testGroup "Golden tests"
-  [ goldenVsString
-      "foo output matches golden file"
-      ".golden/foo.golden"
-      (return $ BL.pack $ map (fromIntegral . fromEnum) "Hello, world!\n")
-  ]
+test_golden =
+  testGroup "Golden tests"
+    [ goldenVsString
+        (takeBaseName inFile)
+        (".golden" </> takeBaseName inFile <.> "lazy")
+        (transform =<< LBS.readFile inFile)
+    | inFile <- inputFiles
+    ]
