@@ -69,4 +69,4 @@ tests:
     - bytestring
     - filepath
     build-tools:
-    - tasty-discover
+    - tasty-discover:tasty-discover

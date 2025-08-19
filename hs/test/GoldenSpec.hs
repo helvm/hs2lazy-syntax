@@ -1,4 +1,4 @@
-module GoldenSpec (tests) where
+module GoldenSpec (test_golden) where
 
 import Test.Tasty (defaultMain, TestTree, testGroup)
 import Test.Tasty.Golden (goldenVsString, findByExtension)
@@ -29,10 +29,11 @@ import System.FilePath (takeBaseName, replaceExtension)
 --    (return $ BL.pack $ map (fromIntegral . fromEnum) "Hello, world!\n")
 --  return $ testGroup "Golden tests" [golden]
 --
-tests :: IO TestTree
-tests = return $ testGroup "Golden tests"
+--tests :: IO TestTree
+test_golden :: TestTree
+test_golden = testGroup "Golden tests"
   [ goldenVsString
       "foo output matches golden file"
-      "test/golden/foo.golden"
+      ".golden/foo.golden"
       (return $ BL.pack $ map (fromIntegral . fromEnum) "Hello, world!\n")
   ]
