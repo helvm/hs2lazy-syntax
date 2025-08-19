@@ -16,18 +16,10 @@ inputFiles = unsafePerformIO (findByExtension [".hs"]  ("examples" </> "apps"))
 preludeIO :: IO String
 preludeIO = LBS.toString <$> LBS.readFile ("examples" </> "libs" </> "hs2lazy-prelude.hs")
 
-
 transform :: LBS.ByteString -> IO LBS.ByteString
---transform = pure
---transform = pure . LBS.fromString . run . LBS.toString
---transform source = do
---  let src = LBS.toString source
---  putStrLn src
---  pure $ LBS.fromString $ run src
 transform source = do
   prelude <- preludeIO
   let src = LBS.toString source
---  putStrLn src
   ski <- runIO $ prelude ++ src
   pure $ LBS.fromString $ ski
 

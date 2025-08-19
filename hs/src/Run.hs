@@ -14,7 +14,6 @@ import Builtin (expandBltin)
 import PPrint (showProgram)
 
 runIO source = do
-  putStrLn source
   pure $ run source
 
 run source = let (p, as, p', e, ce) = compile source in
