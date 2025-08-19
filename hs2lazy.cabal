@@ -66,6 +66,7 @@ test-suite hs2lazy-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      GoldenSpec
       Paths_hs2lazy
   hs-source-dirs:
       hs/test
@@ -75,7 +76,10 @@ test-suite hs2lazy-test
   build-depends:
       array
     , base >=4.7 && <5
+    , bytestring
+    , filepath
     , hs2lazy
+    , hspec
     , mtl
     , parsec
     , tasty

@@ -65,5 +65,8 @@ tests:
     - tasty-hunit
     - tasty-hspec
     - tasty-golden
+    - hspec
+    - bytestring
+    - filepath
     build-tools:
     - tasty-discover
