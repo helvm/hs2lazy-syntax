@@ -64,22 +64,22 @@ executable hs2lazy-exe
 
 test-suite hs2lazy-test
   type: exitcode-stdio-1.0
-  main-is: Main.hs
+  main-is: Spec.hs
   other-modules:
-      Spec
       Paths_hs2lazy
   hs-source-dirs:
       hs/test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-unused-binds -fno-warn-unused-matches -threaded -rtsopts -with-rtsopts=-N
   build-tool-depends:
-      hspec-discover:hspec-discover ==2.*
+      tasty-discover:tasty-discover
   build-depends:
       array
     , base >=4.7 && <5
     , hs2lazy
-    , hspec
-    , hspec-slow
     , mtl
     , parsec
+    , tasty
     , tasty-golden
+    , tasty-hspec
+    , tasty-hunit
   default-language: Haskell2010

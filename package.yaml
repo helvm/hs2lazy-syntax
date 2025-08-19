@@ -53,7 +53,7 @@ executables:
 
 tests:
   hs2lazy-test:
-    main:                Main.hs
+    main:                Spec.hs
     source-dirs:         hs/test
     ghc-options:
     - -threaded
@@ -61,7 +61,9 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - hs2lazy
-    - hspec
-    - hspec-slow
+    - tasty
+    - tasty-hunit
+    - tasty-hspec
+    - tasty-golden
     build-tools:
-    - hspec-discover:hspec-discover == 2.*
+    - tasty-discover
