@@ -1,6 +1,6 @@
 module GoldenSpec (test_golden) where
 
-import Run
+import HS2Lazy.Run
 
 import Test.Tasty (TestTree, testGroup)
 import Test.Tasty.Golden (goldenVsString, findByExtension)

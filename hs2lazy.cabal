@@ -24,18 +24,18 @@ source-repository head
 
 library
   exposed-modules:
-      Builtin
-      Compiler
-      Lexer
-      Optimizer
-      Parser
-      PatComp
-      PPrint
-      Run
-      SCC
-      Static
-      Syntax
-      Type
+      HS2Lazy.Builtin
+      HS2Lazy.Compiler
+      HS2Lazy.Lexer
+      HS2Lazy.Optimizer
+      HS2Lazy.Parser
+      HS2Lazy.PatComp
+      HS2Lazy.PPrint
+      HS2Lazy.Run
+      HS2Lazy.SCC
+      HS2Lazy.Static
+      HS2Lazy.Syntax
+      HS2Lazy.Type
   other-modules:
       Paths_hs2lazy
   hs-source-dirs:

@@ -2,17 +2,17 @@ module Main where
 import Data.Char (toLower)
 import System.Environment
 import System.IO
-import Syntax
-import qualified Lexer as L
-import qualified Parser as P
-import qualified Static as S
-import qualified Type as T
-import Compiler (programToExpr, expandCon, skiCompile)
-import PatComp (compilePatternMatch)
-import Optimizer (optimizeExpr)
-import Builtin (expandBltin)
-import PPrint (showProgram)
-import Run
+import HS2Lazy.Syntax
+import qualified HS2Lazy.Lexer as L
+import qualified HS2Lazy.Parser as P
+import qualified HS2Lazy.Static as S
+import qualified HS2Lazy.Type as T
+import HS2Lazy.Compiler (programToExpr, expandCon, skiCompile)
+import HS2Lazy.PatComp (compilePatternMatch)
+import HS2Lazy.Optimizer (optimizeExpr)
+import HS2Lazy.Builtin (expandBltin)
+import HS2Lazy.PPrint (showProgram)
+import HS2Lazy.Run
 
 main :: IO ()
 main = do
