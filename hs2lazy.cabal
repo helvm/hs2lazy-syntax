@@ -43,9 +43,10 @@ library
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-unused-binds -fno-warn-unused-matches
   build-depends:
       array
-    , base >=4.7 && <5
+    , base >=4.11 && <10
     , mtl
     , parsec
+    , rio >=0.1.12.0
   default-language: Haskell2010
 
 executable hs2lazy-exe
@@ -57,10 +58,12 @@ executable hs2lazy-exe
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-unused-binds -fno-warn-unused-matches -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       array
-    , base >=4.7 && <5
+    , base >=4.11 && <10
     , hs2lazy
     , mtl
+    , optparse-simple
     , parsec
+    , rio >=0.1.12.0
   default-language: Haskell2010
 
 test-suite hs2lazy-test
@@ -76,13 +79,14 @@ test-suite hs2lazy-test
       tasty-discover:tasty-discover
   build-depends:
       array
-    , base >=4.7 && <5
+    , base >=4.11 && <10
     , bytestring
     , filepath
     , hs2lazy
     , hspec
     , mtl
     , parsec
+    , rio >=0.1.12.0
     , tasty
     , tasty-golden
     , tasty-hspec

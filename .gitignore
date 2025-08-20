@@ -3,5 +3,7 @@
 .idea
 dist-newstyle
 *.tix
-.stack-work/
 *~
+*.swp
+tarballs/
+.stack-work/
