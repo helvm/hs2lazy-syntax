@@ -385,15 +385,6 @@ data SKI = SAp  SKI SKI
 sap :: SKI -> [SKI] -> SKI
 sap = foldl SAp
 
-instance Show SKI where
-    show e = showsPrec 1 e ""
-    showsPrec _ (SVar i)    = (i++)
-    showsPrec _ (SLit l)    = shows l
-    showsPrec _ (SCon k n)  = ('@':) . shows k . ('_':) . shows n
-    showsPrec _ (SAp e1 e2) = ('`':) . shows e1 . shows e2
---    showsPrec p (SAp e1 e2) = showParen (p > 0) $
---			        showsPrec 0 e1 . (' ':) . showsPrec 1 e2
-
 dependency :: [Impl] -> [[Impl]]
 dependency bs = (map . map) (\v -> (v, lookup' v bs)) (reverse vss)
     where vs = map fst bs
