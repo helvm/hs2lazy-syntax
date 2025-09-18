@@ -215,9 +215,7 @@ bindings (es, iss) = [(i, as) | (i, _, as) <- es] ++ concat iss
 class HasVar t where
     freeVars :: t -> [Id]
 
-fvBindGroup :: BindGroup -> [Id]
-fvBindGroup bg = fvAlts (concat altss) \\ is
-    where (is, altss) = unzip (bindings bg)
+
 
 
 
@@ -279,10 +277,10 @@ data SKI = SAp  SKI SKI
 sap :: SKI -> [SKI] -> SKI
 sap = foldl SAp
 
-dependency :: [Impl] -> [[Impl]]
-dependency bs = (map . map) (\v -> (v, lookup' v bs)) (reverse vss)
-    where vs = map fst bs
-	  vss = scc [(v, fvAlts alts `intersect` vs) | (v, alts) <- bs]
-	  lookup' key xs = case lookup key xs of
-			   Just x -> x
-			   Nothing -> error "cannot occur"
+--dependency :: [Impl] -> [[Impl]]
+--dependency bs = (map . map) (\v -> (v, lookup' v bs)) (reverse vss)
+--    where vs = map fst bs
+--	  vss = scc [(v, fvAlts alts `intersect` vs) | (v, alts) <- bs]
+--	  lookup' key xs = case lookup key xs of
+--			   Just x -> x
+--			   Nothing -> error "cannot occur"
