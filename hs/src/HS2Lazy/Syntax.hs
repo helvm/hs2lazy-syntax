@@ -137,13 +137,6 @@ data Pred   = IsIn Id Type
 data Scheme = Forall [Kind] (Qual Type)
               deriving Eq
 
-instance Show Scheme where
-    showsPrec _ (Forall _ qt) = shows qt
-
-instance Types Scheme where
-  apply s (Forall ks t) = Forall ks (apply s t)
-  tv (Forall ks t)      = tv t
-
 quantify      :: [Tyvar] -> Qual Type -> Scheme
 quantify vs qt = Forall ks (apply s qt)
  where vs' = [ v | v <- tv qt, v `elem` vs ]
