@@ -84,14 +84,6 @@ class HasKind t where
 
 type Subst  = [(Tyvar, Type)]
 
-class Types t where
-  apply :: Subst -> t -> t
-  tv    :: t -> [Tyvar]
-
-  tv (TVar u)  = [u]
-  tv (TAp l r) = tv l `union` tv r
-  tv t         = []
-
 -- Predicates
 data Qual t = [Pred] :=> t
               deriving Eq
