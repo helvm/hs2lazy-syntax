@@ -44,9 +44,6 @@ data Tycon = Tycon { tyconName::Id,
                      tyconArities::[Int]
                    } deriving Eq
 
-instance Show Tycon where
-    show tc = tyconName tc
-
 data Synonym = Synonym Id Kind [Tyvar] Type deriving Eq
 
 unsynonym :: Synonym -> [Type] -> Type
@@ -114,31 +111,13 @@ pair a b    = TCon (tupTycon 2) `fn` a `fn` b
 
 class HasKind t where
   kind :: t -> Kind
-instance HasKind Tyvar where
-  kind (Tyvar v k) = k
-instance HasKind Tycon where
-  kind tc = tyconKind tc
-instance HasKind Synonym where
-  kind (Synonym _ k _ _) = k
-instance HasKind Type where
-  kind (TCon tc) = kind tc
-  kind (TVar u)  = kind u
-  kind (TAp t _) = case (kind t) of
-                     (Kfun _ k) -> k
-  kind (TSynonym syn ts) = kind (unsynonym syn ts)
+
 
 type Subst  = [(Tyvar, Type)]
 
 class Types t where
   apply :: Subst -> t -> t
   tv    :: t -> [Tyvar]
-
-instance Types Type where
-  apply s (TVar u)  = case lookup u s of
-                       Just t  -> t
-                       Nothing -> TVar u
-  apply s (TAp l r) = TAp (apply s l) (apply s r)
-  apply s t         = t
 
   tv (TVar u)  = [u]
   tv (TAp l r) = tv l `union` tv r
@@ -235,10 +214,6 @@ bindings (es, iss) = [(i, as) | (i, _, as) <- es] ++ concat iss
 
 class HasVar t where
     freeVars :: t -> [Id]
-
-
-
-
 
 fvBindGroup :: BindGroup -> [Id]
 fvBindGroup bg = fvAlts (concat altss) \\ is
