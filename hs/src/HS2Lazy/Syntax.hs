@@ -73,19 +73,6 @@ preludeSynonyms :: [Synonym]
 preludeSynonyms = [Synonym "String" Star [] (list tChar)
                   ]
 
-preludeConstrs :: [Const]
-preludeConstrs = [Const { conName = i,
-                          conArity = a,
-                          conTag = tag,
-                          conTycon = tycon,
-                          conScheme = quantifyAll' t }
-                      | (i, a, tag, TCon tycon, t) <- constrs]
-    where a = TVar (Tyvar "a" Star)
-          constrs = [("True", 0, 1, tBool, tBool),
-		     ("False", 0, 2, tBool, tBool),
-                     (":", 2, 1, tList, a `fn` list a `fn` list a),
-		     ("[]", 0, 2, tList, list a)]
-
 eTrue = Con con
     where Just con = find (\c -> conName c == "True") preludeConstrs
 eFalse = Con con
