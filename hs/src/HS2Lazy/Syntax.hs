@@ -38,9 +38,6 @@ fromTAp t = [t]
 
 data Tyvar = Tyvar Id Kind deriving Eq
 
-instance Show Tyvar where
-    show (Tyvar id _) = id
-
 data Tycon = Tycon { tyconName::Id,
                      tyconKind::Kind,
                      tyconNumCon::Int,
@@ -147,9 +144,6 @@ instance Types Type where
   tv (TAp l r) = tv l `union` tv r
   tv t         = []
 
-instance Types a => Types [a] where
-  apply s = map (apply s)
-  tv      = nub . concat . map tv
 
 -- Predicates
 data Qual t = [Pred] :=> t
@@ -158,22 +152,7 @@ data Qual t = [Pred] :=> t
 data Pred   = IsIn Id Type
               deriving Eq
 
-instance Types t => Types (Qual t) where
-  apply s (ps :=> t) = apply s ps :=> apply s t
-  tv (ps :=> t)      = tv ps `union` tv t
 
-instance Types Pred where
-  apply s (IsIn i t) = IsIn i (apply s t)
-  tv (IsIn i t)      = tv t
-
-instance (Show t) => Show (Qual t) where
-    showsPrec _ ([] :=> t) = shows t
-    showsPrec _ (p :=> t) = showsContext . (" => " ++) . shows t
-        where showsContext = showParen True $
-                             foldr1 (\f g -> f . (", " ++) . g) (map shows p)
-
-instance Show Pred where
-    showsPrec _ (IsIn id t) = (id ++) . (' ':) . shows t
 
 -- Type schemes
 data Scheme = Forall [Kind] (Qual Type)
@@ -204,12 +183,7 @@ toScheme t     = Forall [] ([] :=> t)
 -- Assumptions
 data Assump = Id :>: Scheme
 
-instance Show Assump where
-    show (i :>: sc) = show i ++ " :: " ++ show sc
 
-instance Types Assump where
-  apply s (i :>: sc) = i :>: (apply s sc)
-  tv (i :>: sc)      = tv sc
 
 findAssump :: MonadFail m => Id -> [Assump] -> m Scheme
 findAssump id [] = fail ("unbound identifier: " ++ id)
@@ -221,10 +195,7 @@ data Literal = LitInt  Int
              | LitStr  String
                deriving Eq
 
-instance Show Literal where
-    show (LitInt n) = show n
-    show (LitChar c) = c
-    show (LitStr s) = s
+
 
 -- Patterns
 data Pat  = PVar Id
@@ -254,8 +225,7 @@ data Const = Const { conName::Id,
                      conTycon::Tycon,
                      conScheme::Scheme }
 
-instance Eq Const where
-    c1 == c2 = conName c1 == conName c2
+
 
 ap :: Expr -> [Expr] -> Expr
 ap = foldl Ap
@@ -266,24 +236,9 @@ bindings (es, iss) = [(i, as) | (i, _, as) <- es] ++ concat iss
 class HasVar t where
     freeVars :: t -> [Id]
 
-instance HasVar Expr where
-    freeVars (Var i) = [i]
-    freeVars (Ap e1 e2) = freeVars e1 `union` freeVars e2
-    freeVars (Let bg e) = fvBindGroup bg `union`
-                         (freeVars e \\ map fst (bindings bg))
-    freeVars (Case e pses) = foldr union fve fvas
-        where fve = freeVars e
-	      fvas = [freeVars e' \\ patVars p | (p, e') <- pses]
-    freeVars (Lambda a) = fvAlt a
-    freeVars (ESign e _) = freeVars e
-    freeVars _ = []
 
-instance HasVar Rhs where
-    freeVars (Rhs e) = freeVars e
-    freeVars (Where bg rhs) =
-        fvBindGroup bg `union` (freeVars rhs \\ map fst (bindings bg))
-    freeVars (Guarded pairs) =
-        foldr union [] [freeVars e `union` freeVars e' | (e, e') <- pairs]
+
+
 
 fvBindGroup :: BindGroup -> [Id]
 fvBindGroup bg = fvAlts (concat altss) \\ is
