@@ -219,10 +219,7 @@ fvBindGroup :: BindGroup -> [Id]
 fvBindGroup bg = fvAlts (concat altss) \\ is
     where (is, altss) = unzip (bindings bg)
 
-fvAlts :: [Alt] -> [Id]
-fvAlts alts = foldl1 union (map fvAlt alts)
-fvAlt :: Alt -> [Id]
-fvAlt (ps, rhs) = freeVars rhs \\ concat (map patVars ps)
+
 
 patVars :: Pat -> [Id]
 patVars (PVar i) = [i]
