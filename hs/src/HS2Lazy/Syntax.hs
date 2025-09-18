@@ -30,31 +30,7 @@ data Type  = TVar Tyvar
            | TSynonym Synonym [Type]
              deriving Eq
 
-instance Show Type where
-    showsPrec _ (TVar v) = shows v
-    showsPrec _ (TCon c) = shows c
-    showsPrec _ (TSynonym syn []) = shows syn
-    showsPrec p (TSynonym syn ts) = showParen (p > 2) f
-        where f = shows syn . (' ':) . g
-              g = foldr1 (\l r -> l . (' ':) . r) (map (showsPrec 3) ts)
-    showsPrec _ (TGen n) = (chr (ord 'a' + n) :)
-    showsPrec p tap@(TAp _ _) =
-	case t of
-	  TCon tc | tyconName tc == "[]"
-               -> ('[':) . showsPrec 0 t1 . (']':)
-	      where [t1] = ts
-	  TCon tc | tyconName tc == "(->)"
-               -> showParen (p > 0) $
-		  showsPrec 1 t1 . (" -> " ++) . showsPrec 0 t2
-	      where [t1, t2] = ts
-	  TCon tc | tyconName tc == "(,)"
-               -> showParen True $
-		  foldr1 (\f g -> f . (", " ++) . g)
-                         (map (showsPrec 0) ts)
-	  _    -> showParen (p > 2) $
-		  foldr1 (\f g -> f . (' ':) . g)
-                         (map (showsPrec 3) (t:ts))
-	where (t:ts) = fromTAp tap
+
 
 fromTAp :: Type -> [Type]
 fromTAp (TAp t1 t2) = fromTAp t1 ++ [t2]
