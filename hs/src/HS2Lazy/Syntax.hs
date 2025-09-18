@@ -112,7 +112,6 @@ pair a b    = TCon (tupTycon 2) `fn` a `fn` b
 class HasKind t where
   kind :: t -> Kind
 
-
 type Subst  = [(Tyvar, Type)]
 
 class Types t where
@@ -122,7 +121,6 @@ class Types t where
   tv (TVar u)  = [u]
   tv (TAp l r) = tv l `union` tv r
   tv t         = []
-
 
 -- Predicates
 data Qual t = [Pred] :=> t
