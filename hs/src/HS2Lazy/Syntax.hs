@@ -137,12 +137,6 @@ data Pred   = IsIn Id Type
 data Scheme = Forall [Kind] (Qual Type)
               deriving Eq
 
-quantify      :: [Tyvar] -> Qual Type -> Scheme
-quantify vs qt = Forall ks (apply s qt)
- where vs' = [ v | v <- tv qt, v `elem` vs ]
-       ks  = map kind vs'
-       s   = zip vs' (map TGen [0..])
-
 quantifyAll :: Qual Type -> Scheme
 quantifyAll t = quantify (tv t) t
 
