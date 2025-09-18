@@ -137,12 +137,6 @@ data Pred   = IsIn Id Type
 data Scheme = Forall [Kind] (Qual Type)
               deriving Eq
 
-quantifyAll :: Qual Type -> Scheme
-quantifyAll t = quantify (tv t) t
-
-quantifyAll' :: Type -> Scheme
-quantifyAll' t = quantify (tv t) ([] :=> t)
-
 toScheme      :: Type -> Scheme
 toScheme t     = Forall [] ([] :=> t)
 
