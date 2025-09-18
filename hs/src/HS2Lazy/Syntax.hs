@@ -73,19 +73,6 @@ preludeSynonyms :: [Synonym]
 preludeSynonyms = [Synonym "String" Star [] (list tChar)
                   ]
 
-eTrue = Con con
-    where Just con = find (\c -> conName c == "True") preludeConstrs
-eFalse = Con con
-    where Just con = find (\c -> conName c == "False") preludeConstrs
-eCons = Con con
-    where Just con = find (\c -> conName c == ":") preludeConstrs
-eNil = Con con
-    where Just con = find (\c -> conName c == "[]") preludeConstrs
-pCons x y = PCon con [x, y]
-    where Just con = find (\c -> conName c == ":") preludeConstrs
-pNil = PCon con []
-    where Just con = find (\c -> conName c == "[]") preludeConstrs
-
 infixr      4 `fn`
 fn         :: Type -> Type -> Type
 a `fn` b    = TAp (TAp tArrow a) b
