@@ -46,10 +46,6 @@ data Tycon = Tycon { tyconName::Id,
 
 data Synonym = Synonym Id Kind [Tyvar] Type deriving Eq
 
-unsynonym :: Synonym -> [Type] -> Type
-unsynonym (Synonym _ _ vs t) ts = apply s t
-    where s = zip vs ts
-
 tChar    = TCon (Tycon "Char" Star 0 [])
 tInt     = TCon (Tycon "Int" Star 0 [])
 tBool    = TCon (Tycon "Bool" Star 2 [0,0])
